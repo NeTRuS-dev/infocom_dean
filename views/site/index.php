@@ -4,4 +4,6 @@
 
 $this->title = 'Деканат';
 ?>
+<div class="container">
 
+</div>
