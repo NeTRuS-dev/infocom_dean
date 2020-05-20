@@ -19,7 +19,7 @@ class m200520_104925_create_history_of_group_changing_table extends Migration
 
             'previous_group_id' => $this->integer()->notNull(),
             'new_group_id' => $this->integer()->notNull(),
-            'specialty_id' => $this->integer()->notNull()
+            'student_id' => $this->integer()->notNull()
         ]);
 
         $this->addForeignKey(
@@ -52,6 +52,14 @@ class m200520_104925_create_history_of_group_changing_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey(
+            'fk-history_of_group_changing-previous_group_id',
+            'history_of_group_changing'
+        );
+        $this->dropForeignKey(
+            'fk-history_of_group_changing-new_group_id',
+            'history_of_group_changing'
+        );
         $this->dropForeignKey(
             'fk-history_of_group_changing-student_id',
             'history_of_group_changing'
