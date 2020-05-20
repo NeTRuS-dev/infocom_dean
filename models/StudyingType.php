@@ -52,6 +52,6 @@ class StudyingType extends \yii\db\ActiveRecord
      */
     public function getStudents()
     {
-        return $this->hasMany(Student::className(), ['studying_type_id' => 'id']);
+        return $this->hasMany(Student::class, ['studying_type_id' => 'id']);
     }
 }

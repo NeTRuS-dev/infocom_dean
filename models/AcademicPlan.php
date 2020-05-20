@@ -53,7 +53,7 @@ class AcademicPlan extends \yii\db\ActiveRecord
      */
     public function getStudents()
     {
-        return $this->hasMany(Student::className(), ['academic_plan_id' => 'id']);
+        return $this->hasMany(Student::class, ['academic_plan_id' => 'id']);
     }
 
     /**
@@ -63,7 +63,7 @@ class AcademicPlan extends \yii\db\ActiveRecord
      */
     public function getSubjectAcademicPlans()
     {
-        return $this->hasMany(SubjectAcademicPlan::className(), ['academic_plan_id' => 'id']);
+        return $this->hasMany(SubjectAcademicPlan::class, ['academic_plan_id' => 'id']);
     }
 
     /**
@@ -73,6 +73,6 @@ class AcademicPlan extends \yii\db\ActiveRecord
      */
     public function getSubjects()
     {
-        return $this->hasMany(Subject::className(), ['id' => 'subject_id'])->viaTable('{{%subject_academic_plan}}', ['academic_plan_id' => 'id']);
+        return $this->hasMany(Subject::class, ['id' => 'subject_id'])->viaTable('{{%subject_academic_plan}}', ['academic_plan_id' => 'id']);
     }
 }

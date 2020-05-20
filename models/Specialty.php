@@ -34,7 +34,7 @@ class Specialty extends \yii\db\ActiveRecord
             [['department_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['name'], 'unique'],
-            [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'id']],
+            [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::class, 'targetAttribute' => ['department_id' => 'id']],
         ];
     }
 
@@ -57,7 +57,7 @@ class Specialty extends \yii\db\ActiveRecord
      */
     public function getGroups()
     {
-        return $this->hasMany(Group::className(), ['specialty_id' => 'id']);
+        return $this->hasMany(Group::class, ['specialty_id' => 'id']);
     }
 
     /**
@@ -67,6 +67,6 @@ class Specialty extends \yii\db\ActiveRecord
      */
     public function getDepartment()
     {
-        return $this->hasOne(Department::className(), ['id' => 'department_id']);
+        return $this->hasOne(Department::class, ['id' => 'department_id']);
     }
 }

@@ -35,9 +35,9 @@ class HistoryOfGroupChanging extends \yii\db\ActiveRecord
         return [
             [['course_number', 'previous_group_id', 'new_group_id', 'student_id'], 'required'],
             [['course_number', 'previous_group_id', 'new_group_id', 'student_id'], 'integer'],
-            [['new_group_id'], 'exist', 'skipOnError' => true, 'targetClass' => Group::className(), 'targetAttribute' => ['new_group_id' => 'id']],
-            [['previous_group_id'], 'exist', 'skipOnError' => true, 'targetClass' => Group::className(), 'targetAttribute' => ['previous_group_id' => 'id']],
-            [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['student_id' => 'id']],
+            [['new_group_id'], 'exist', 'skipOnError' => true, 'targetClass' => Group::class, 'targetAttribute' => ['new_group_id' => 'id']],
+            [['previous_group_id'], 'exist', 'skipOnError' => true, 'targetClass' => Group::class, 'targetAttribute' => ['previous_group_id' => 'id']],
+            [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::class, 'targetAttribute' => ['student_id' => 'id']],
         ];
     }
 
@@ -62,7 +62,7 @@ class HistoryOfGroupChanging extends \yii\db\ActiveRecord
      */
     public function getNewGroup()
     {
-        return $this->hasOne(Group::className(), ['id' => 'new_group_id']);
+        return $this->hasOne(Group::class, ['id' => 'new_group_id']);
     }
 
     /**
@@ -72,7 +72,7 @@ class HistoryOfGroupChanging extends \yii\db\ActiveRecord
      */
     public function getPreviousGroup()
     {
-        return $this->hasOne(Group::className(), ['id' => 'previous_group_id']);
+        return $this->hasOne(Group::class, ['id' => 'previous_group_id']);
     }
 
     /**
@@ -82,6 +82,6 @@ class HistoryOfGroupChanging extends \yii\db\ActiveRecord
      */
     public function getStudent()
     {
-        return $this->hasOne(Student::className(), ['id' => 'student_id']);
+        return $this->hasOne(Student::class, ['id' => 'student_id']);
     }
 }

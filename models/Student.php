@@ -44,9 +44,9 @@ class Student extends \yii\db\ActiveRecord
             [['date_of_birth', 'year_of_receipt'], 'safe'],
             [['academic_plan_id', 'studying_type_id', 'group_id'], 'integer'],
             [['name', 'surname', 'patronymic'], 'string', 'max' => 255],
-            [['academic_plan_id'], 'exist', 'skipOnError' => true, 'targetClass' => AcademicPlan::className(), 'targetAttribute' => ['academic_plan_id' => 'id']],
-            [['group_id'], 'exist', 'skipOnError' => true, 'targetClass' => Group::className(), 'targetAttribute' => ['group_id' => 'id']],
-            [['studying_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => StudyingType::className(), 'targetAttribute' => ['studying_type_id' => 'id']],
+            [['academic_plan_id'], 'exist', 'skipOnError' => true, 'targetClass' => AcademicPlan::class, 'targetAttribute' => ['academic_plan_id' => 'id']],
+            [['group_id'], 'exist', 'skipOnError' => true, 'targetClass' => Group::class, 'targetAttribute' => ['group_id' => 'id']],
+            [['studying_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => StudyingType::class, 'targetAttribute' => ['studying_type_id' => 'id']],
         ];
     }
 
@@ -75,7 +75,7 @@ class Student extends \yii\db\ActiveRecord
      */
     public function getHistoryOfAcademicLeaves()
     {
-        return $this->hasMany(HistoryOfAcademicLeaves::className(), ['student_id' => 'id']);
+        return $this->hasMany(HistoryOfAcademicLeaves::class, ['student_id' => 'id']);
     }
 
     /**
@@ -85,7 +85,7 @@ class Student extends \yii\db\ActiveRecord
      */
     public function getHistoryOfCourseMoves()
     {
-        return $this->hasMany(HistoryOfCourseMoves::className(), ['student_id' => 'id']);
+        return $this->hasMany(HistoryOfCourseMoves::class, ['student_id' => 'id']);
     }
 
     /**
@@ -95,7 +95,7 @@ class Student extends \yii\db\ActiveRecord
      */
     public function getHistoryOfGroupChangings()
     {
-        return $this->hasMany(HistoryOfGroupChanging::className(), ['student_id' => 'id']);
+        return $this->hasMany(HistoryOfGroupChanging::class, ['student_id' => 'id']);
     }
 
     /**
@@ -105,7 +105,7 @@ class Student extends \yii\db\ActiveRecord
      */
     public function getAcademicPlan()
     {
-        return $this->hasOne(AcademicPlan::className(), ['id' => 'academic_plan_id']);
+        return $this->hasOne(AcademicPlan::class, ['id' => 'academic_plan_id']);
     }
 
     /**
@@ -115,7 +115,7 @@ class Student extends \yii\db\ActiveRecord
      */
     public function getGroup()
     {
-        return $this->hasOne(Group::className(), ['id' => 'group_id']);
+        return $this->hasOne(Group::class, ['id' => 'group_id']);
     }
 
     /**
@@ -125,6 +125,6 @@ class Student extends \yii\db\ActiveRecord
      */
     public function getStudyingType()
     {
-        return $this->hasOne(StudyingType::className(), ['id' => 'studying_type_id']);
+        return $this->hasOne(StudyingType::class, ['id' => 'studying_type_id']);
     }
 }

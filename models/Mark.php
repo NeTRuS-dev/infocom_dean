@@ -31,7 +31,7 @@ class Mark extends \yii\db\ActiveRecord
         return [
             [['value', 'subject_id'], 'integer'],
             [['subject_id'], 'required'],
-            [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
+            [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::class, 'targetAttribute' => ['subject_id' => 'id']],
         ];
     }
 
@@ -54,6 +54,6 @@ class Mark extends \yii\db\ActiveRecord
      */
     public function getSubject()
     {
-        return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
+        return $this->hasOne(Subject::class, ['id' => 'subject_id']);
     }
 }

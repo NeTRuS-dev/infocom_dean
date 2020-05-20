@@ -34,8 +34,8 @@ class SubjectAcademicPlan extends \yii\db\ActiveRecord
             [['subject_id', 'academic_plan_id', 'number_of_lecture_hours', 'hours_of_practical_training'], 'required'],
             [['subject_id', 'academic_plan_id', 'number_of_lecture_hours', 'hours_of_practical_training'], 'integer'],
             [['subject_id', 'academic_plan_id'], 'unique', 'targetAttribute' => ['subject_id', 'academic_plan_id']],
-            [['academic_plan_id'], 'exist', 'skipOnError' => true, 'targetClass' => AcademicPlan::className(), 'targetAttribute' => ['academic_plan_id' => 'id']],
-            [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
+            [['academic_plan_id'], 'exist', 'skipOnError' => true, 'targetClass' => AcademicPlan::class, 'targetAttribute' => ['academic_plan_id' => 'id']],
+            [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::class, 'targetAttribute' => ['subject_id' => 'id']],
         ];
     }
 
@@ -59,7 +59,7 @@ class SubjectAcademicPlan extends \yii\db\ActiveRecord
      */
     public function getAcademicPlan()
     {
-        return $this->hasOne(AcademicPlan::className(), ['id' => 'academic_plan_id']);
+        return $this->hasOne(AcademicPlan::class, ['id' => 'academic_plan_id']);
     }
 
     /**
@@ -69,6 +69,6 @@ class SubjectAcademicPlan extends \yii\db\ActiveRecord
      */
     public function getSubject()
     {
-        return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
+        return $this->hasOne(Subject::class, ['id' => 'subject_id']);
     }
 }

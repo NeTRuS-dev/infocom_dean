@@ -32,7 +32,7 @@ class HistoryOfCourseMoves extends \yii\db\ActiveRecord
         return [
             [['old_course_number', 'new_course_number', 'student_id'], 'required'],
             [['old_course_number', 'new_course_number', 'student_id'], 'integer'],
-            [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['student_id' => 'id']],
+            [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::class, 'targetAttribute' => ['student_id' => 'id']],
         ];
     }
 
@@ -56,6 +56,6 @@ class HistoryOfCourseMoves extends \yii\db\ActiveRecord
      */
     public function getStudent()
     {
-        return $this->hasOne(Student::className(), ['id' => 'student_id']);
+        return $this->hasOne(Student::class, ['id' => 'student_id']);
     }
 }

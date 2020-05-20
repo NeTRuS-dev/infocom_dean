@@ -37,7 +37,7 @@ class Group extends \yii\db\ActiveRecord
             [['course_number', 'specialty_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['name'], 'unique'],
-            [['specialty_id'], 'exist', 'skipOnError' => true, 'targetClass' => Specialty::className(), 'targetAttribute' => ['specialty_id' => 'id']],
+            [['specialty_id'], 'exist', 'skipOnError' => true, 'targetClass' => Specialty::class, 'targetAttribute' => ['specialty_id' => 'id']],
         ];
     }
 
@@ -61,7 +61,7 @@ class Group extends \yii\db\ActiveRecord
      */
     public function getSpecialty()
     {
-        return $this->hasOne(Specialty::className(), ['id' => 'specialty_id']);
+        return $this->hasOne(Specialty::class, ['id' => 'specialty_id']);
     }
 
     /**
@@ -71,7 +71,7 @@ class Group extends \yii\db\ActiveRecord
      */
     public function getHistoryOfGroupChangings()
     {
-        return $this->hasMany(HistoryOfGroupChanging::className(), ['new_group_id' => 'id']);
+        return $this->hasMany(HistoryOfGroupChanging::class, ['new_group_id' => 'id']);
     }
 
     /**
@@ -81,7 +81,7 @@ class Group extends \yii\db\ActiveRecord
      */
     public function getHistoryOfGroupChangings0()
     {
-        return $this->hasMany(HistoryOfGroupChanging::className(), ['previous_group_id' => 'id']);
+        return $this->hasMany(HistoryOfGroupChanging::class, ['previous_group_id' => 'id']);
     }
 
     /**
@@ -91,6 +91,6 @@ class Group extends \yii\db\ActiveRecord
      */
     public function getStudents()
     {
-        return $this->hasMany(Student::className(), ['group_id' => 'id']);
+        return $this->hasMany(Student::class, ['group_id' => 'id']);
     }
 }

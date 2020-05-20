@@ -36,7 +36,7 @@ class Subject extends \yii\db\ActiveRecord
             [['department_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['name'], 'unique'],
-            [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'id']],
+            [['department_id'], 'exist', 'skipOnError' => true, 'targetClass' => Department::class, 'targetAttribute' => ['department_id' => 'id']],
         ];
     }
 
@@ -59,7 +59,7 @@ class Subject extends \yii\db\ActiveRecord
      */
     public function getMarks()
     {
-        return $this->hasMany(Mark::className(), ['subject_id' => 'id']);
+        return $this->hasMany(Mark::class, ['subject_id' => 'id']);
     }
 
     /**
@@ -69,7 +69,7 @@ class Subject extends \yii\db\ActiveRecord
      */
     public function getDepartment()
     {
-        return $this->hasOne(Department::className(), ['id' => 'department_id']);
+        return $this->hasOne(Department::class, ['id' => 'department_id']);
     }
 
     /**
@@ -79,7 +79,7 @@ class Subject extends \yii\db\ActiveRecord
      */
     public function getSubjectAcademicPlans()
     {
-        return $this->hasMany(SubjectAcademicPlan::className(), ['subject_id' => 'id']);
+        return $this->hasMany(SubjectAcademicPlan::class, ['subject_id' => 'id']);
     }
 
     /**
@@ -89,6 +89,6 @@ class Subject extends \yii\db\ActiveRecord
      */
     public function getAcademicPlans()
     {
-        return $this->hasMany(AcademicPlan::className(), ['id' => 'academic_plan_id'])->viaTable('{{%subject_academic_plan}}', ['subject_id' => 'id']);
+        return $this->hasMany(AcademicPlan::class, ['id' => 'academic_plan_id'])->viaTable('{{%subject_academic_plan}}', ['subject_id' => 'id']);
     }
 }

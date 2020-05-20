@@ -56,7 +56,7 @@ class Department extends \yii\db\ActiveRecord
      */
     public function getSpecialties()
     {
-        return $this->hasMany(Specialty::className(), ['department_id' => 'id']);
+        return $this->hasMany(Specialty::class, ['department_id' => 'id']);
     }
 
     /**
@@ -66,6 +66,6 @@ class Department extends \yii\db\ActiveRecord
      */
     public function getSubjects()
     {
-        return $this->hasMany(Subject::className(), ['department_id' => 'id']);
+        return $this->hasMany(Subject::class, ['department_id' => 'id']);
     }
 }
