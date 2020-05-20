@@ -33,7 +33,7 @@ WHERE LEFT(student.name, LENGTH(@name_pattern)) = @name_pattern
 
 --
 
-SELECT `student`.`name` as `Имя студента`, AVG(`mark`.`value`) as `Средняя оценка`
+SELECT `student`.`name` as `Имя студента`
 FROM `group`
          INNER JOIN `student` ON `group`.`id` = `student`.`group_id`
          INNER JOIN `academic_plan` ON `student`.`academic_plan_id` = `academic_plan`.`id`

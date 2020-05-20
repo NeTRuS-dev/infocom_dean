@@ -10,7 +10,11 @@ use Yii;
  * @property int $id
  * @property int|null $value
  * @property int $subject_id
+ * @property string|null $valuation_date
+ * @property int $student_id
+ * @property int|null $absent
  *
+ * @property Student $student
  * @property Subject $subject
  */
 class Mark extends \yii\db\ActiveRecord
@@ -23,15 +27,14 @@ class Mark extends \yii\db\ActiveRecord
         return '{{%mark}}';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
-            [['value', 'subject_id'], 'integer', 'min' => 2, 'max' => 5],
-            [['subject_id'], 'required'],
-            [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::class, 'targetAttribute' => ['subject_id' => 'id']],
+            [['value', 'subject_id', 'student_id', 'absent'], 'integer'],
+            [['subject_id', 'student_id'], 'required'],
+            [['valuation_date'], 'safe'],
+            [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['student_id' => 'id']],
+            [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
         ];
     }
 
@@ -44,7 +47,20 @@ class Mark extends \yii\db\ActiveRecord
             'id' => 'ID',
             'value' => 'Value',
             'subject_id' => 'Subject ID',
+            'valuation_date' => 'Valuation Date',
+            'student_id' => 'Student ID',
+            'absent' => 'Absent',
         ];
+    }
+
+    /**
+     * Gets query for [[Student]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStudent()
+    {
+        return $this->hasOne(Student::className(), ['id' => 'student_id']);
     }
 
     /**
@@ -54,6 +70,6 @@ class Mark extends \yii\db\ActiveRecord
      */
     public function getSubject()
     {
-        return $this->hasOne(Subject::class, ['id' => 'subject_id']);
+        return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
     }
 }
