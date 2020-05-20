@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%student}}`.
  */
-class m200520_081453_create_student_table extends Migration
+class m200520_100424_create_student_table extends Migration
 {
 
     /**
@@ -21,6 +21,7 @@ class m200520_081453_create_student_table extends Migration
             'date_of_birth' => $this->date()->notNull(),
             'year_of_receipt' => $this->date()->notNull(),
 
+            'academic_plan_id' => $this->integer()->notNull(),
             'studying_type_id' => $this->integer()->notNull(),
             'group_id' => $this->integer()->notNull()
 
