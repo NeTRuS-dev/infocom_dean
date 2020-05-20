@@ -14,7 +14,7 @@ class m200520_103107_create_mark_table extends Migration
     {
         $this->createTable('{{%mark}}', [
             'id' => $this->primaryKey(),
-            'value' => $this->smallInteger(),
+            'value' => $this->tinyInteger(),
 
             'subject_id' => $this->integer()->notNull()
         ]);
