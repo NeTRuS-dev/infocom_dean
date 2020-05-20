@@ -33,8 +33,8 @@ class Mark extends \yii\db\ActiveRecord
             [['value', 'subject_id', 'student_id', 'absent'], 'integer'],
             [['subject_id', 'student_id'], 'required'],
             [['valuation_date'], 'safe'],
-            [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::className(), 'targetAttribute' => ['student_id' => 'id']],
-            [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::className(), 'targetAttribute' => ['subject_id' => 'id']],
+            [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::class, 'targetAttribute' => ['student_id' => 'id']],
+            [['subject_id'], 'exist', 'skipOnError' => true, 'targetClass' => Subject::class, 'targetAttribute' => ['subject_id' => 'id']],
         ];
     }
 
@@ -60,7 +60,7 @@ class Mark extends \yii\db\ActiveRecord
      */
     public function getStudent()
     {
-        return $this->hasOne(Student::className(), ['id' => 'student_id']);
+        return $this->hasOne(Student::class, ['id' => 'student_id']);
     }
 
     /**
@@ -70,6 +70,6 @@ class Mark extends \yii\db\ActiveRecord
      */
     public function getSubject()
     {
-        return $this->hasOne(Subject::className(), ['id' => 'subject_id']);
+        return $this->hasOne(Subject::class, ['id' => 'subject_id']);
     }
 }
