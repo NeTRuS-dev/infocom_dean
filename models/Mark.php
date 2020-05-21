@@ -30,7 +30,9 @@ class Mark extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['value', 'subject_id', 'student_id', 'absent'], 'integer'],
+            ['value', 'integer', 'min' => 2, 'max' => 5],
+            ['absent', 'boolean'],
+            [['subject_id', 'student_id'], 'integer'],
             [['subject_id', 'student_id'], 'required'],
             [['valuation_date'], 'safe'],
             [['student_id'], 'exist', 'skipOnError' => true, 'targetClass' => Student::class, 'targetAttribute' => ['student_id' => 'id']],

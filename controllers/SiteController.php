@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use Yii;
 use yii\db\Query;
 use yii\web\Controller;
 
@@ -29,8 +28,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-//        $query=(new Query())->
         return $this->render('index');
-    }
 
+    }
 }
