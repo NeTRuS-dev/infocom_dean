@@ -34,7 +34,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'subject_id',
             //'student_id',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'buttons' => [
+                    'view' => function ($url, $model, $key) {
+                        return Html::a('Посмотреть', $url, ['class' => 'btn btn-info m-1']);
+                    },
+                    'update' => function ($url, $model, $key) {
+                        return Html::a('Изменить', $url, ['class' => 'btn btn-primary m-1']);
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        return Html::a('Удалить', $url, ['class' => 'btn btn-danger m-1']);
+                    },
+                ]
+            ],
         ],
     ]); ?>
 
