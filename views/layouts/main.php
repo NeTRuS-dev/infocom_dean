@@ -29,13 +29,25 @@ AppAsset::register($this);
     NavBar::begin([
         'brandLabel' => 'Деканат',
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-inverse',
         ],
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'средний балл', 'url' => ['/site/index']],
+            [
+                'label' => 'Представления',
+                'items' => [
+                    ['label' => 'Список лекционных аудиторий', 'url' => ['/']],
+                ],
+            ],
+            [
+                'label' => 'Сущности',
+                'items' => [
+                    ['label' => 'Список лекционных аудиторий', 'url' => ['/department/index']],
+                ],
+            ],
+
         ],
     ]);
     NavBar::end();
