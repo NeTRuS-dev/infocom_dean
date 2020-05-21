@@ -12,7 +12,7 @@ class m200520_160333_add_valuation_date_column_to_mark_table extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('mark', 'valuation_date', $this->dateTime()->defaultExpression('NOW()'));
+        $this->addColumn('mark', 'valuation_date', $this->dateTime()->defaultExpression('NOW()')->after('value'));
     }
 
     /**

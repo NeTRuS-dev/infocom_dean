@@ -12,7 +12,7 @@ class m200520_172011_add_absent_column_to_mark_table extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('mark', 'absent', $this->boolean()->defaultValue(true));
+        $this->addColumn('mark', 'absent', $this->boolean()->defaultValue(true)->after('value'));
     }
 
     /**

@@ -8,7 +8,8 @@ FROM `group`
 GROUP BY `group`.`name`, `subject`.`name`;
 
 --
-
+SET @beginning = '';
+SET @ending = '';
 SELECT `group`.`name`, `student`.`name`, `student`.`surname`, `student`.`patronymic`
 FROM `subject`
          INNER JOIN `subject_academic_plan` ON `subject`.`id` = `subject_academic_plan`.`subject_id`
@@ -24,6 +25,9 @@ WHERE `mark`.`value` = 0
 --
 
 -- SELECT LEFT('abffagpokejfkjs', LENGTH('hello'))
+SET @name_pattern = '';
+SET @surname_pattern = '';
+SET @patronymic_pattern = '';
 SELECT *
 FROM student
 WHERE LEFT(student.name, LENGTH(@name_pattern)) = @name_pattern
@@ -42,5 +46,5 @@ FROM `group`
          INNER JOIN `mark` ON `mark`.`subject_id` = `subject`.`id`
 GROUP BY `student`.`name`
 HAVING AVG(`mark`.`value`) > 2.75
-   AND COUNT
+   AND (COUNT(`mark`.`absent`) / COUNT(*)) > 0.3
 -- TODO пропущенные занятия
