@@ -1,12 +1,14 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
+use yii\bootstrap4\Nav;
+use yii\bootstrap4\NavBar;
 use app\assets\AppAsset;
+use yii\helpers\Inflector;
 
 AppAsset::register($this);
 ?>
@@ -28,12 +30,9 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         'brandLabel' => 'Деканат',
-        'options' => [
-            'class' => 'navbar-inverse',
-        ],
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+        'options' => ['class' => 'navbar-nav navbar-right ml-auto'],
         'items' => [
             [
                 'label' => 'Представления',
@@ -44,7 +43,17 @@ AppAsset::register($this);
             [
                 'label' => 'Сущности',
                 'items' => [
-                    ['label' => 'Список лекционных аудиторий', 'url' => ['/department/index']],
+                    ['label' => 'Кафедра', 'url' => ['/department/index']],
+                    ['label' => 'Специальности', 'url' => ['/specialty/index']],
+                    ['label' => 'Группы', 'url' => ['/group/index']],
+                    ['label' => 'Студенты', 'url' => ['/student/index']],
+                    ['label' => 'Учебные планы', 'url' => ['/academic-plan/index']],
+                    ['label' => 'Предметы', 'url' => ['/subject/index']],
+                    ['label' => 'Оценки', 'url' => ['/mark/index']],
+                    ['label' => 'История уходов в академический отпуск', 'url' => ['/' . Inflector::camel2id('HistoryOfAcademicLeaves') . '/index']],
+                    ['label' => 'История переходов между курсами', 'url' => ['/' . Inflector::camel2id('HistoryOfCourseMoves') . '/index']],
+                    ['label' => 'История смен групп', 'url' => ['/' . Inflector::camel2id('HistoryOfGroupChanging') . '/index']],
+                    ['label' => 'Оценки', 'url' => ['/mark/index']],
                 ],
             ],
 
