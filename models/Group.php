@@ -64,6 +64,7 @@ class Group extends \yii\db\ActiveRecord
         return $this->hasOne(Specialty::class, ['id' => 'specialty_id']);
     }
 
+    //TODO useless
     /**
      * Gets query for [[HistoryOfGroupChangings]].
      *
@@ -74,6 +75,7 @@ class Group extends \yii\db\ActiveRecord
         return $this->hasMany(HistoryOfGroupChanging::class, ['new_group_id' => 'id']);
     }
 
+    //TODO useless
     /**
      * Gets query for [[HistoryOfGroupChangings0]].
      *
