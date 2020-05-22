@@ -44,6 +44,7 @@ class SiteController extends Controller
             'data_provider' => $provider,
         ]);
     }
+
     /**
      * Displays homepage.
      *
@@ -59,13 +60,12 @@ class SiteController extends Controller
                 'pageSize' => 10,
             ],
         ]);
-        $paginator = $provider->getPagination();
-        $paginator->route='/site/get-graph';
 
         return $this->render('display-graph', [
-            'paginator' => $paginator,
+            'data_provider' => $provider,
         ]);
     }
+
     /**
      * for img
      *
@@ -73,19 +73,12 @@ class SiteController extends Controller
      */
     public function actionGetGraph()
     {
-        $query = (new Query())->from('grade_point_average_in_group');
-        $provider = new ActiveDataProvider([
-            'db' => Yii::$app->db,
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
         $this->layout = false;
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         Yii::$app->response->headers->set('Content-Type', 'text/plain; charset=utf-8');
         return $this->render('graph-presenter', [
-            'data_provider' => $provider,
+            'groups' => Yii::$app->request->queryParams['groups'],
+            'marks' => Yii::$app->request->queryParams['marks'],
         ]);
     }
 }
