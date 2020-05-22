@@ -1,7 +1,7 @@
 CREATE VIEW grade_point_average_in_group AS
 SELECT `group`.`name` as `Группа`, `subject`.`name` as `Предмет`, AVG(`mark`.`value`) as `Средняя оценка`
 FROM `group`
-         INNER JOIN `student` ON `group`.`id` = `student`.`group_id`
+         INNER JOIN `student` ON `student`.`deleted` = 0 AND `group`.`id` = `student`.`group_id`
          INNER JOIN `academic_plan` ON `student`.`academic_plan_id` = `academic_plan`.`id`
          INNER JOIN `subject_academic_plan` ON `subject_academic_plan`.`academic_plan_id` = `academic_plan`.`id`
          INNER JOIN `subject` ON `subject_academic_plan`.`subject_id` = `subject`.`id`
@@ -25,7 +25,7 @@ BEGIN
     FROM `subject`
              INNER JOIN `subject_academic_plan` ON `subject`.`id` = `subject_academic_plan`.`subject_id`
              INNER JOIN `academic_plan` ON `academic_plan`.`id` = `subject_academic_plan`.`academic_plan_id`
-             INNER JOIN `student` ON `academic_plan`.`id` = `student`.`academic_plan_id`
+             INNER JOIN `student` ON `student`.`deleted` = 0 AND `academic_plan`.`id` = `student`.`academic_plan_id`
              INNER JOIN `group` ON `group`.`id` = `student`.`group_id`
              INNER JOIN `mark` ON `mark`.`student_id` = `student`.`id` AND `mark`.`valuation_date` >= beginning AND
                                   `mark`.`valuation_date` <= ending
@@ -53,7 +53,8 @@ BEGIN
            `student`.`patronymic` AS `Отчество`
     FROM `student`
              LEFT JOIN `group` ON `group`.`id` = `student`.`group_id`
-    WHERE `student`.`name` LIKE CONCAT(name_pattern, '%')
+    WHERE `student`.`deleted` = 0
+      AND `student`.`name` LIKE CONCAT(name_pattern, '%')
       AND `student`.`surname` LIKE CONCAT(surname_pattern, '%')
       AND `student`.`patronymic` LIKE CONCAT(patronymic_pattern, '%')
     GROUP BY `student`.`id`,
@@ -73,7 +74,7 @@ SELECT `student`.`name`                                                         
        AVG(`mark`.`value`)                                                           as `Средняя оценка`,
        (COUNT(CASE WHEN `mark`.`absent` >= 1 THEN 1 ELSE NULL END) / COUNT(*)) * 100 as `Процент пропусков`
 FROM `group`
-         INNER JOIN `student` ON `group`.`id` = `student`.`group_id`
+         INNER JOIN `student` ON `student`.`deleted` = 0 AND `group`.`id` = `student`.`group_id`
          INNER JOIN `academic_plan` ON `student`.`academic_plan_id` = `academic_plan`.`id`
          INNER JOIN `subject_academic_plan` ON `subject_academic_plan`.`academic_plan_id` = `academic_plan`.`id`
          INNER JOIN `subject` ON `subject_academic_plan`.`subject_id` = `subject`.`id`
@@ -111,7 +112,8 @@ BEGIN
     SELECT `student`.`id` as `id`
     FROM `group`
              INNER JOIN `student`
-                        ON `group`.`id` = target_group_id AND `group`.`id` = `student`.`group_id`
+                        ON `student`.`deleted` = 0 AND `group`.`id` = target_group_id AND
+                           `group`.`id` = `student`.`group_id`
              INNER JOIN `academic_plan` ON `student`.`academic_plan_id` = `academic_plan`.`id`
              INNER JOIN `subject_academic_plan`
                         ON `subject_academic_plan`.`academic_plan_id` = `academic_plan`.`id`
@@ -127,7 +129,8 @@ BEGIN
 
     UPDATE `student`
     SET `student`.`group_id` = @new_group_id
-    WHERE `student`.`id` in (SELECT `id` FROM `student_ids_to_stay_back`);
+    WHERE `student`.`deleted` = 0
+      AND `student`.`id` in (SELECT `id` FROM `student_ids_to_stay_back`);
 
     DROP TEMPORARY TABLE `student_ids_to_stay_back`;
 
@@ -149,11 +152,13 @@ BEGIN
     values ((SELECT `group`.`course_number`, `student`.`group_id`
              FROM `student`
                       INNER JOIN `group` ON `student`.`group_id` = `group`.`id`
-             WHERE `student`.`id` = target_student_id),
+             WHERE `student`.`deleted` = 0
+               AND `student`.`id` = target_student_id),
             target_group_id, target_student_id);
     UPDATE `student`
     SET `student`.`group_id`=target_group_id
-    WHERE `student`.`id` = target_student_id;
+    WHERE `student`.`deleted` = 0
+      AND `student`.`id` = target_student_id;
 
 END //
 
