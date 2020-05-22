@@ -3,13 +3,6 @@
 
 /* @var $this yii\web\View */
 
-use yii\bootstrap4\LinkPager;
-
-function rand_color()
-{
-    return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
-}
-
 require_once(Yii::getAlias('@app') . '/JpGraph/jpgraph.php');
 require_once(Yii::getAlias('@app') . '/JpGraph/jpgraph_bar.php');
 
@@ -24,21 +17,14 @@ $graph->SetBox(false);
 
 $graph->ygrid->SetFill(false);
 $models = $data_provider->getModels();
-$graph->xaxis->SetTickLabels(array_map(function ($model) {
-    return $model['Группа'];
-}, $models));
+$graph->xaxis->SetTickLabels(array_column($models, 'Группа'));
 $graph->yaxis->HideLine(false);
 $graph->yaxis->HideTicks(false, false);
-$graph->xaxis->SetLabelAngle(90);
-foreach ($models as $model) {
-    $bar = new BarPlot([$model['Средняя оценка']]);
-    $bar->SetColor("white");
-    $bar->SetFillColor(rand_color());
-    $graph->Add($bar);
-}
-// Display the graph
+$graph->xaxis->SetLabelAngle(50);
+$bar = new BarPlot(array_column($models, 'Средняя оценка'));
+$bar->SetColor("white");
+$bar->SetWidth(50);
+$bar->SetFillGradient("#159100","white",GRAD_LEFT_REFLECTION);
+$graph->Add($bar);
+$graph->title->Set("Cредний балл в группе по изучаемым дисциплинам");
 $graph->Stroke();
-
-echo LinkPager::widget([
-    'pagination' => $data_provider->getPagination(),
-]);

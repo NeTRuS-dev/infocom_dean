@@ -38,7 +38,7 @@ AppAsset::register($this);
                 'label' => 'Отчёты',
                 'items' => [
                     ['label' => 'Средний балл в группе таблица', 'url' => ['/']],
-                    ['label' => 'Средний балл в группе диаграмма', 'url' => ['/site/get-graph']],
+                    ['label' => 'Средний балл в группе диаграмма', 'url' => ['/site/display-graph']],
                 ],
             ],
             [

@@ -32,7 +32,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
 //        $data=Yii::$app->db->createCommand('CALL ')->queryAll();
-        $query=(new Query())->from('grade_point_average_in_group');
+        $query = (new Query())->from('grade_point_average_in_group');
         $provider = new ActiveDataProvider([
             'db' => Yii::$app->db,
             'query' => $query,
@@ -44,15 +44,14 @@ class SiteController extends Controller
             'data_provider' => $provider,
         ]);
     }
-
     /**
      * Displays homepage.
      *
      * @return string
      */
-    public function actionGetGraph()
+    public function actionDisplayGraph()
     {
-        $query=(new Query())->from('grade_point_average_in_group');
+        $query = (new Query())->from('grade_point_average_in_group');
         $provider = new ActiveDataProvider([
             'db' => Yii::$app->db,
             'query' => $query,
@@ -60,6 +59,31 @@ class SiteController extends Controller
                 'pageSize' => 10,
             ],
         ]);
+        $paginator = $provider->getPagination();
+        $paginator->route='/site/get-graph';
+
+        return $this->render('display-graph', [
+            'paginator' => $paginator,
+        ]);
+    }
+    /**
+     * for img
+     *
+     * @return string
+     */
+    public function actionGetGraph()
+    {
+        $query = (new Query())->from('grade_point_average_in_group');
+        $provider = new ActiveDataProvider([
+            'db' => Yii::$app->db,
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        $this->layout = false;
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->set('Content-Type', 'text/plain; charset=utf-8');
         return $this->render('graph-presenter', [
             'data_provider' => $provider,
         ]);
