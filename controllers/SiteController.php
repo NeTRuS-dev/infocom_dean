@@ -44,4 +44,24 @@ class SiteController extends Controller
             'data_provider' => $provider,
         ]);
     }
+
+    /**
+     * Displays homepage.
+     *
+     * @return string
+     */
+    public function actionGetGraph()
+    {
+        $query=(new Query())->from('grade_point_average_in_group');
+        $provider = new ActiveDataProvider([
+            'db' => Yii::$app->db,
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        return $this->render('graph-presenter', [
+            'data_provider' => $provider,
+        ]);
+    }
 }
