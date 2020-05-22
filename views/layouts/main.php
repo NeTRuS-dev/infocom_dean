@@ -35,9 +35,10 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right ml-auto'],
         'items' => [
             [
-                'label' => 'Представления',
+                'label' => 'Отчёты',
                 'items' => [
-                    ['label' => 'Список лекционных аудиторий', 'url' => ['/']],
+                            ['label' => 'Средний балл в группе таблица', 'url' => ['/']],
+                            ['label' => 'Средний балл в группе диаграмма', 'url' => ['/site/diagram']],
                 ],
             ],
             [

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\db\Query;
 use yii\web\Controller;
 
@@ -30,8 +31,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        //TODO implement
-        $query = (new Query());
+//        $data=Yii::$app->db->createCommand('CALL ')->queryAll();
+        $query=(new Query())->from('grade_point_average_in_group');
         $provider = new ActiveDataProvider([
             'db' => Yii::$app->db,
             'query' => $query,
