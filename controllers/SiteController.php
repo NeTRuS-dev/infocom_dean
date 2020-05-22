@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use Yii;
+use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use yii\web\Controller;
 
@@ -28,7 +30,17 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
-
+        //TODO implement
+        $query = (new Query());
+        $provider = new ActiveDataProvider([
+            'db' => Yii::$app->db,
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        return $this->render('index', [
+            'data_provider' => $provider,
+        ]);
     }
 }

@@ -1,3 +1,4 @@
+CREATE VIEW grade_point_average_in_group AS
 SELECT `group`.`name` as `Группа`, `subject`.`name` as `Предмет`, AVG(`mark`.`value`) as `Средняя оценка`
 FROM `group`
          INNER JOIN `student` ON `group`.`id` = `student`.`group_id`
@@ -8,38 +9,61 @@ FROM `group`
 GROUP BY `group`.`name`, `subject`.`name`;
 
 --
-SET @beginning = CAST("2017-08-29 00:00:00" AS DATETIME);
-SET @ending = CAST("2020-08-29 00:00:00" AS DATETIME);
-SELECT `group`.`name`,
-       `student`.`name`,
-       `student`.`surname`,
-       `student`.`patronymic`
-FROM `subject`
-         INNER JOIN `subject_academic_plan` ON `subject`.`id` = `subject_academic_plan`.`subject_id`
-         INNER JOIN `academic_plan` ON `academic_plan`.`id` = `subject_academic_plan`.`academic_plan_id`
-         INNER JOIN `student` ON `academic_plan`.`id` = `student`.`academic_plan_id`
-         INNER JOIN `group` ON `group`.`id` = `student`.`group_id`
-         INNER JOIN `mark` ON `mark`.`student_id` = `student`.`id` AND `mark`.`valuation_date` >= @beginning AND
-                              `mark`.`valuation_date` <= @ending
-WHERE `mark`.`absent` = 1
-   OR `mark`.`value` = 2
-GROUP BY `group`.`name`,
-         `student`.`name`,
-         `student`.`surname`,
-         `student`.`patronymic`;
+# SET @beginning = CAST("2017-08-29 00:00:00" AS DATETIME);
+# SET @ending = CAST("2020-08-29 00:00:00" AS DATETIME);
 
+
+DELIMITER //
+
+CREATE PROCEDURE GetIdiotsInTimeRange(IN beginning DATETIME,
+                                      IN ending DATETIME)
+BEGIN
+    SELECT `group`.`name`,
+           `student`.`name`,
+           `student`.`surname`,
+           `student`.`patronymic`
+    FROM `subject`
+             INNER JOIN `subject_academic_plan` ON `subject`.`id` = `subject_academic_plan`.`subject_id`
+             INNER JOIN `academic_plan` ON `academic_plan`.`id` = `subject_academic_plan`.`academic_plan_id`
+             INNER JOIN `student` ON `academic_plan`.`id` = `student`.`academic_plan_id`
+             INNER JOIN `group` ON `group`.`id` = `student`.`group_id`
+             INNER JOIN `mark` ON `mark`.`student_id` = `student`.`id` AND `mark`.`valuation_date` >= beginning AND
+                                  `mark`.`valuation_date` <= ending
+    WHERE `mark`.`absent` = 1
+       OR `mark`.`value` = 2
+    GROUP BY `group`.`name`,
+             `student`.`name`,
+             `student`.`surname`,
+             `student`.`patronymic`;
+END //
+
+DELIMITER ;
 --
 
--- SELECT LEFT('abffagpokejfkjs', LENGTH('hello'))
-SET @name_pattern = 'Э';
-SET @surname_pattern = 'М';
-SET @patronymic_pattern = 'И';
-SELECT *
-FROM `student`
-WHERE `student`.`name` LIKE CONCAT(@name_pattern, '%')
-  AND `student`.`surname` LIKE CONCAT(@surname_pattern, '%')
-  AND `student`.`patronymic` LIKE CONCAT(@patronymic_pattern, '%');
+DELIMITER //
 
+CREATE PROCEDURE GetStudentsByNames(IN name_pattern VARCHAR(255),
+                                    IN surname_pattern VARCHAR(255),
+                                    IN patronymic_pattern VARCHAR(255))
+BEGIN
+    SELECT `student`.`id`         AS `Идентификатор студента`,
+           `group`.`name`         AS `Группа`,
+           `student`.`name`       AS `Имя`,
+           `student`.`surname`    AS `Фамилия`,
+           `student`.`patronymic` AS `Отчество`
+    FROM `student`
+             LEFT JOIN `group` ON `group`.`id` = `student`.`group_id`
+    WHERE `student`.`name` LIKE CONCAT(name_pattern, '%')
+      AND `student`.`surname` LIKE CONCAT(surname_pattern, '%')
+      AND `student`.`patronymic` LIKE CONCAT(patronymic_pattern, '%')
+    GROUP BY `student`.`id`,
+             `group`.`name`,
+             `student`.`name`,
+             `student`.`surname`,
+             `student`.`patronymic`;
+END //
+
+DELIMITER ;
 
 --
 
@@ -93,6 +117,10 @@ BEGIN
                         ON `subject_academic_plan`.`academic_plan_id` = `academic_plan`.`id`
              INNER JOIN `subject` ON `subject_academic_plan`.`subject_id` = `subject`.`id`
              INNER JOIN `mark` ON `mark`.`subject_id` = `subject`.`id`
+             LEFT JOIN `history_of_academic_leaves` ON `history_of_academic_leaves`.`student_id` = `student`.`id` AND
+                                                       `history_of_academic_leaves`.`date_of_beginning` <= CURDATE() AND
+                                                       `history_of_academic_leaves`.`date_of_ending` >= CURDATE()
+    WHERE `history_of_academic_leaves`.`id` IS NULL
     GROUP BY `student`.`id`
     HAVING AVG(`mark`.`value`) <= 2.75
         OR (COUNT(CASE WHEN `mark`.`absent` >= 1 THEN 1 ELSE NULL END) / COUNT(*)) <= 0.3;
@@ -111,22 +139,37 @@ END //
 DELIMITER ;
 
 --
-# SET @target_group_id = 1;
-# SET @target_group_course_number = (SELECT `course_number`
-#                                    FROM `group`
-#                                    WHERE `group`.`id` = @target_group_id);
-# SET @target_group_specialty_id = (SELECT `specialty_id`
-#                                   FROM `group`
-#                                   WHERE `group`.`id` = @target_group_id);
-# SET @new_group_id = (SELECT `group`.`id`
-#                      FROM `group`
-#                      WHERE `group`.`course_number` = @target_group_course_number
-#                        AND `group`.`id` != @target_group_id
-#                      LIMIT 1);
-# IF COUNT(@new_group_id) = 0 THEN
-# INSERT `group`(`name`, `course_number`, `specialty_id`)
-# VALUES (LEFT(MD5(RAND()), 8), @target_group_course_number, @target_group_specialty_id);
-# SELECT LAST_INSERT_ID();
-# ELSE
-# SELECT @new_group_id;
-# END IF;
+
+DELIMITER //
+
+CREATE PROCEDURE MoveStudentToOtherGroup(IN target_student_id INT,
+                                         IN target_group_id INT)
+BEGIN
+    INSERT INTO `history_of_group_changing`(`course_number`, `previous_group_id`, `new_group_id`, `student_id`)
+    values ((SELECT `group`.`course_number`, `student`.`group_id`
+             FROM `student`
+                      INNER JOIN `group` ON `student`.`group_id` = `group`.`id`
+             WHERE `student`.`id` = target_student_id),
+            target_group_id, target_student_id);
+    UPDATE `student`
+    SET `student`.`group_id`=target_group_id
+    WHERE `student`.`id` = target_student_id;
+
+END //
+
+DELIMITER ;
+
+--
+
+DELIMITER //
+
+CREATE PROCEDURE DeleteStudent(IN target_student_id INT)
+BEGIN
+    UPDATE `student`
+    SET `student`.`deleted` = 1
+    WHERE `student`.`id` = target_student_id;
+
+END //
+
+DELIMITER ;
+
