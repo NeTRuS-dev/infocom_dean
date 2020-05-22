@@ -82,20 +82,26 @@ BEGIN
         SET @new_group_id = LAST_INSERT_ID();
     END IF;
 
+
+    CREATE TEMPORARY TABLE `student_ids_to_stay_back`
+    SELECT `student`.`id` as `id`
+    FROM `group`
+             INNER JOIN `student`
+                        ON `group`.`id` = target_group_id AND `group`.`id` = `student`.`group_id`
+             INNER JOIN `academic_plan` ON `student`.`academic_plan_id` = `academic_plan`.`id`
+             INNER JOIN `subject_academic_plan`
+                        ON `subject_academic_plan`.`academic_plan_id` = `academic_plan`.`id`
+             INNER JOIN `subject` ON `subject_academic_plan`.`subject_id` = `subject`.`id`
+             INNER JOIN `mark` ON `mark`.`subject_id` = `subject`.`id`
+    GROUP BY `student`.`id`
+    HAVING AVG(`mark`.`value`) <= 2.75
+        OR (COUNT(CASE WHEN `mark`.`absent` >= 1 THEN 1 ELSE NULL END) / COUNT(*)) <= 0.3;
+
     UPDATE `student`
     SET `student`.`group_id` = @new_group_id
-    WHERE `student`.`id` in (SELECT `student`.`id` as `id`
-                             FROM `group`
-                                      INNER JOIN `student`
-                                                 ON `group`.`id` = target_group_id AND `group`.`id` = `student`.`group_id`
-                                      INNER JOIN `academic_plan` ON `student`.`academic_plan_id` = `academic_plan`.`id`
-                                      INNER JOIN `subject_academic_plan`
-                                                 ON `subject_academic_plan`.`academic_plan_id` = `academic_plan`.`id`
-                                      INNER JOIN `subject` ON `subject_academic_plan`.`subject_id` = `subject`.`id`
-                                      INNER JOIN `mark` ON `mark`.`subject_id` = `subject`.`id`
-                             GROUP BY `student`.`id`
-                             HAVING AVG(`mark`.`value`) <= 2.75
-                                 OR (COUNT(CASE WHEN `mark`.`absent` >= 1 THEN 1 ELSE NULL END) / COUNT(*)) <= 0.3);
+    WHERE `student`.`id` in (SELECT `id` FROM `student_ids_to_stay_back`);
+
+    DROP TEMPORARY TABLE `student_ids_to_stay_back`;
 
     UPDATE `group`
     SET `group`.`course_number` = `group`.`course_number` + 1
