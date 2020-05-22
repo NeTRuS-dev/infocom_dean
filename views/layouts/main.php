@@ -42,6 +42,10 @@ AppAsset::register($this);
                 ],
             ],
             [
+                'label' => 'Личная карточка студента',
+                'url' => ['/site/get-personal-card']
+            ],
+            [
                 'label' => 'Сущности',
                 'items' => [
                     ['label' => 'Кафедра', 'url' => ['/department/index']],

@@ -2,7 +2,10 @@
 
 namespace app\controllers;
 
+use app\models\DataContainer;
+use app\models\StudentSearchForm;
 use Yii;
+use yii\base\DynamicModel;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\db\Query;
@@ -31,7 +34,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-//        $data=Yii::$app->db->createCommand('CALL ')->queryAll();
         $query = (new Query())->from('grade_point_average_in_group');
         $provider = new ActiveDataProvider([
             'db' => Yii::$app->db,
@@ -80,5 +82,41 @@ class SiteController extends Controller
             'groups' => Yii::$app->request->queryParams['groups'],
             'marks' => Yii::$app->request->queryParams['marks'],
         ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function actionGetPersonalCard()
+    {
+        $model = new StudentSearchForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            //gets all ids
+            $students_ids = Yii::$app->db->createCommand('CALL GetStudentsIDsByNames(:name_pattern, :surname_pattern, :patronymic_pattern)')
+                ->bindValue(':name_pattern', $model->name_pattern)
+                ->bindValue(':surname_pattern', $model->surname_pattern)
+                ->bindValue(':patronymic_pattern', $model->patronymic_pattern)
+                ->queryAll();
+            $data_containers = [];
+            foreach ($students_ids as $student_id) {
+                $new_cotainer = new DataContainer();
+                $new_cotainer->main_data = Yii::$app->db->createCommand('CALL GetMainDataAboutStudent(:id)')
+                    ->bindValue(':id', $student_id)
+                    ->queryAll();
+
+                $new_cotainer->subjects_data = Yii::$app->db->createCommand('CALL GetSubjectsDataAboutStudent(:id)')
+                    ->bindValue(':id', $student_id)
+                    ->queryAll();
+
+                $new_cotainer->history_data = Yii::$app->db->createCommand('CALL GetHistoryDataAboutStudent(:id)')
+                    ->bindValue(':id', $student_id)
+                    ->queryAll();
+                $data_containers[] = $new_cotainer;
+            }
+            return $this->render('students-displayer', compact('data_containers'));
+
+        } else {
+            return $this->render('select-student', compact('model'));
+        }
     }
 }

@@ -8,7 +8,7 @@ require_once(Yii::getAlias('@app') . '/JpGraph/jpgraph.php');
 require_once(Yii::getAlias('@app') . '/JpGraph/jpgraph_bar.php');
 
 $graph = new Graph(1080, 720, 'auto');
-$graph->SetMargin(20,20,0,20);
+$graph->SetMargin(20, 20, 0, 20);
 $graph->SetScale("textlin");
 
 $theme_class = new AquaTheme;
