@@ -5,9 +5,7 @@ namespace app\controllers;
 use app\models\DataContainer;
 use app\models\StudentSearchForm;
 use Yii;
-use yii\base\DynamicModel;
 use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
 use yii\db\Query;
 use yii\web\Controller;
 
@@ -90,6 +88,9 @@ class SiteController extends Controller
     public function actionGetPersonalCard()
     {
         $model = new StudentSearchForm();
+        if (empty(Yii::$app->request->get())) {
+            Yii::$app->session->removeAllFlashes();
+        }
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             //gets all ids
             $students_ids = Yii::$app->db->createCommand('CALL GetStudentsIDsByNames(:name_pattern, :surname_pattern, :patronymic_pattern)')
@@ -98,7 +99,8 @@ class SiteController extends Controller
                 ->bindValue(':patronymic_pattern', $model->patronymic_pattern)
                 ->queryAll();
             $data_containers = [];
-            foreach ($students_ids as $student_id) {
+            foreach ($students_ids as $item) {
+                $student_id = $item['id'];
                 $new_cotainer = new DataContainer();
                 $new_cotainer->main_data = Yii::$app->db->createCommand('CALL GetMainDataAboutStudent(:id)')
                     ->bindValue(':id', $student_id)
@@ -113,8 +115,14 @@ class SiteController extends Controller
                     ->queryAll();
                 $data_containers[] = $new_cotainer;
             }
+            Yii::$app->session->setFlash('stored_data_containers', $data_containers);
             return $this->render('students-displayer', compact('data_containers'));
 
+        } else if (Yii::$app->session->has('stored_data_containers')) {
+            $data_containers = Yii::$app->session->getFlash('stored_data_containers', null, true);
+            Yii::$app->session->setFlash('stored_data_containers', $data_containers);
+
+            return $this->render('students-displayer', compact('data_containers'));
         } else {
             return $this->render('select-student', compact('model'));
         }

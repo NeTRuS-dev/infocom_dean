@@ -7,21 +7,23 @@ use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
+$this->title = 'Отчёт';
+
 /**
- * @param \app\models\DataContainer $container
- * @param int $index
- * @throws Exception
+ * @param array $data
+ * @param string $page_param
+ * @param string $sort_param
  */
-function display_data_container(DataContainer $container, int $index)
+function display_data(array $data, string $page_param, string $sort_param)
 {
     $data_provider = new ArrayDataProvider([
-            'allModels' => $container->main_data,
+            'allModels' => $data,
             'pagination' => [
                 'pageSize' => 10,
-                'pageParam' => $index . '-data-page',
+                'pageParam' => $page_param,
             ],
             'sort' => [
-                'sortParam' => $index . '-data-sort'
+                'sortParam' => $sort_param
             ]
         ]
     );
@@ -36,6 +38,29 @@ function display_data_container(DataContainer $container, int $index)
 
     ]);
 }
+
+/**
+ * @param DataContainer $container
+ * @param int $index
+ */
+function display_data_container(DataContainer $container, int $index)
+{
+    display_data($container->main_data, $index . '-1-data-page', $index . '-1-data-sort');
+    display_data($container->subjects_data, $index . '-2-data-page', $index . '-2-data-sort');
+    display_data($container->history_data, $index . '-3-data-page', $index . '-3-data-sort');
+}
+
+?>
+<div class="d-flex justify-content-center align-items-center flex-column">
+    <?php
+    foreach ($data_containers as $index => $data_container) {
+        display_data_container($data_container, $index);
+    }
+    ?>
+
+</div>
+
+
 
 
 
