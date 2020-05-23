@@ -1,8 +1,9 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $_title string */
 
-$this->title = 'Деканат';
+$this->title = $_title;
 use yii\bootstrap4\LinkPager;
 use yii\grid\GridView;
 

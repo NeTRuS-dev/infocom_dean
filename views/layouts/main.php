@@ -42,6 +42,12 @@ AppAsset::register($this);
                 ],
             ],
             [
+                'label' => 'Запросы',
+                'items' => [
+                    ['label' => 'Студенты с плохой успеваемостью', 'url' => ['/site/' . Inflector::camel2id('GetLosers')]],
+                ],
+            ],
+            [
                 'label' => 'Личная карточка студента',
                 'url' => ['/site/get-personal-card']
             ],
