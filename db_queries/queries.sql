@@ -31,10 +31,10 @@ CREATE PROCEDURE GetIdiotsInTimeRange(IN subject_id INT,
                                       IN beginning DATETIME,
                                       IN ending DATETIME)
 BEGIN
-    SELECT `group`.`name`,
-           `student`.`name`,
-           `student`.`surname`,
-           `student`.`patronymic`
+    SELECT `group`.`name`         AS `Группа`,
+           `student`.`name`       AS `Имя`,
+           `student`.`surname`    AS `Фамилия`,
+           `student`.`patronymic` AS `Отчество`
     FROM `subject`
              INNER JOIN `subject_academic_plan` ON `subject`.`id` = `subject_academic_plan`.`subject_id`
              INNER JOIN `academic_plan` ON `academic_plan`.`id` = `subject_academic_plan`.`academic_plan_id`

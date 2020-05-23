@@ -13,8 +13,6 @@ use Yii;
  * @property int $specialty_id
  *
  * @property Specialty $specialty
- * @property HistoryOfGroupChanging[] $historyOfGroupChangings
- * @property HistoryOfGroupChanging[] $historyOfGroupChangings0
  * @property Student[] $students
  */
 class Group extends \yii\db\ActiveRecord
@@ -64,27 +62,6 @@ class Group extends \yii\db\ActiveRecord
         return $this->hasOne(Specialty::class, ['id' => 'specialty_id']);
     }
 
-    //TODO useless
-    /**
-     * Gets query for [[HistoryOfGroupChangings]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getHistoryOfGroupChangings()
-    {
-        return $this->hasMany(HistoryOfGroupChanging::class, ['new_group_id' => 'id']);
-    }
-
-    //TODO useless
-    /**
-     * Gets query for [[HistoryOfGroupChangings0]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getHistoryOfGroupChangings0()
-    {
-        return $this->hasMany(HistoryOfGroupChanging::class, ['previous_group_id' => 'id']);
-    }
 
     /**
      * Gets query for [[Students]].
