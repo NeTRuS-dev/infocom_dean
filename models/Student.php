@@ -140,4 +140,10 @@ class Student extends \yii\db\ActiveRecord
     {
         return $this->hasOne(StudyingType::class, ['id' => 'studying_type_id']);
     }
+
+    public function delete()
+    {
+        $this->deleted = 1;
+        return $this->save() ? $this->id : false;
+    }
 }
