@@ -8,7 +8,6 @@ FROM `group`
          INNER JOIN `mark` ON `mark`.`subject_id` = `subject`.`id` AND `mark`.`value` IS NOT NULL
 GROUP BY `group`.`name`;
 
-
 --
 
 CREATE VIEW grade_point_average_in_group_for_subject AS
@@ -28,7 +27,8 @@ GROUP BY `group`.`name`, `subject`.`name`;
 
 DELIMITER //
 
-CREATE PROCEDURE GetIdiotsInTimeRange(IN beginning DATETIME,
+CREATE PROCEDURE GetIdiotsInTimeRange(IN subject_id INT,
+                                      IN beginning DATETIME,
                                       IN ending DATETIME)
 BEGIN
     SELECT `group`.`name`,
@@ -42,8 +42,9 @@ BEGIN
              INNER JOIN `group` ON `group`.`id` = `student`.`group_id`
              INNER JOIN `mark` ON `mark`.`student_id` = `student`.`id` AND `mark`.`valuation_date` >= beginning AND
                                   `mark`.`valuation_date` <= ending
-    WHERE `mark`.`absent` = 1
-       OR `mark`.`value` = 2
+    WHERE `subject`.`id` = subject_id
+      AND (`mark`.`absent` = 1
+        OR `mark`.`value` = 2)
     GROUP BY `group`.`name`,
              `student`.`name`,
              `student`.`surname`,
