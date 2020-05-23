@@ -26,15 +26,13 @@ class LosersSearchForm extends \yii\base\Model
             [['start_date', 'end_date', 'subject_id'], 'trim'],
             [['start_date', 'end_date', 'subject_id'], 'required'],
             [['start_date', 'end_date'], 'date', 'format' => 'yyyy-mm-dd', 'max' => ((new DateTime())->format('yy-m-d')), 'min' => '1147-01-01',],
-            ['start_date', function ($attribute, $params) {
+            ['start_date', function ($attribute) {
                 if ($this->start_date >= $this->end_date) {
                     $this->addError($attribute, 'Дата начала поиска должна быть меньше даты окончания');
                 }
             }],
             ['subject_id', 'integer',],
             [['subject_id'], 'exist', 'targetClass' => Subject::class, 'targetAttribute' => ['subject_id' => 'id']],
-
-
         ];
     }
 

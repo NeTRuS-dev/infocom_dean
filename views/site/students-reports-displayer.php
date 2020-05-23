@@ -33,7 +33,8 @@ function display_data(array $data, string $page_param, string $sort_param)
         'headerRowOptions' => ['class' => 'text-center'],
         'dataProvider' => $data_provider,
         'pager' => [
-            'class' => LinkPager::class
+            'class' => LinkPager::class,
+            'options' => ['class' => 'd-flex justify-content-center align-items-center'],
         ]
 
     ]);
@@ -53,8 +54,12 @@ function display_data_container(DataContainer $container, int $index)
 ?>
 <div class="d-flex justify-content-center align-items-center flex-column">
     <?php
-    foreach ($data_containers as $index => $data_container) {
-        display_data_container($data_container, $index);
+    if (!empty($data_containers)) {
+        foreach ($data_containers as $index => $data_container) {
+            display_data_container($data_container, $index);
+        }
+    } else {
+        echo '<span class="h1 mt-5">Ничего не найдено</span>';
     }
     ?>
 

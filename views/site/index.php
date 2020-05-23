@@ -4,6 +4,7 @@
 /* @var $_title string */
 
 $this->title = $_title;
+
 use yii\bootstrap4\LinkPager;
 use yii\grid\GridView;
 
@@ -16,7 +17,8 @@ use yii\grid\GridView;
         'headerRowOptions' => ['class' => 'text-center'],
         'dataProvider' => $data_provider,
         'pager' => [
-            'class' => LinkPager::class
+            'class' => LinkPager::class,
+            'options' => ['class' => 'd-flex justify-content-center align-items-center'],
         ]
 
     ]); ?>
