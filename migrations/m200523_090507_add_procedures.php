@@ -12,15 +12,15 @@ class m200523_090507_add_procedures extends Migration
      */
     public function safeUp()
     {
-     $this->execute(<<<SQL
+        $this->execute(<<<SQL
 CREATE PROCEDURE GetIdiotsInTimeRange(IN subject_id INT,
                                       IN beginning DATETIME,
                                       IN ending DATETIME)
 BEGIN
-    SELECT `group`.`name`,
-           `student`.`name`,
-           `student`.`surname`,
-           `student`.`patronymic`
+    SELECT `group`.`name`                AS `Группа`,
+           `student`.`name`              AS `Имя`,
+           `student`.`surname`           AS `Фамилия`,
+           `student`.`patronymic`        AS `Отчество`
     FROM `subject`
              INNER JOIN `subject_academic_plan` ON `subject`.`id` = `subject_academic_plan`.`subject_id`
              INNER JOIN `academic_plan` ON `academic_plan`.`id` = `subject_academic_plan`.`academic_plan_id`
@@ -37,7 +37,7 @@ BEGIN
              `student`.`patronymic`;
 END ;
 SQL
-);
+        );
         $this->execute(<<<SQL
 CREATE PROCEDURE GetStudentsIDsByNames(IN name_pattern VARCHAR(255),
                                        IN surname_pattern VARCHAR(255),
@@ -54,7 +54,7 @@ BEGIN
 END ;
 
 SQL
-);
+        );
         $this->execute(<<<SQL
 CREATE PROCEDURE GetMainDataAboutStudent(IN target_id INT)
 BEGIN
@@ -78,7 +78,7 @@ BEGIN
       AND `student`.`id` = target_id;
 END ;
 SQL
-);
+        );
         $this->execute(<<<SQL
 CREATE PROCEDURE GetSubjectsDataAboutStudent(IN target_id INT)
 BEGIN
@@ -95,7 +95,7 @@ BEGIN
     GROUP BY `subject`.`name`;
 END ;
 SQL
-);
+        );
         $this->execute(<<<SQL
 CREATE PROCEDURE GetHistoryDataAboutStudent(IN target_id INT)
 BEGIN
@@ -108,7 +108,7 @@ BEGIN
     WHERE `history_of_group_changing`.`student_id` = target_id;
 END ;
 SQL
-);
+        );
     }
 
     /**
@@ -116,11 +116,11 @@ SQL
      */
     public function safeDown()
     {
-       $this->execute('DROP PROCEDURE GetIdiotsInTimeRange');
-       $this->execute('DROP PROCEDURE GetStudentsIDsByNames');
-       $this->execute('DROP PROCEDURE GetMainDataAboutStudent');
-       $this->execute('DROP PROCEDURE GetSubjectsDataAboutStudent');
-       $this->execute('DROP PROCEDURE GetHistoryDataAboutStudent');
+        $this->execute('DROP PROCEDURE GetIdiotsInTimeRange');
+        $this->execute('DROP PROCEDURE GetStudentsIDsByNames');
+        $this->execute('DROP PROCEDURE GetMainDataAboutStudent');
+        $this->execute('DROP PROCEDURE GetSubjectsDataAboutStudent');
+        $this->execute('DROP PROCEDURE GetHistoryDataAboutStudent');
     }
 
     /*
