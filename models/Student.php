@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%student}}".
@@ -26,7 +26,7 @@ use Yii;
  * @property Group $group
  * @property StudyingType $studyingType
  */
-class Student extends \yii\db\ActiveRecord
+class Student extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -45,6 +45,7 @@ class Student extends \yii\db\ActiveRecord
             [['name', 'surname', 'patronymic', 'date_of_birth', 'year_of_receipt', 'academic_plan_id', 'studying_type_id', 'group_id'], 'required'],
             [['date_of_birth', 'year_of_receipt'], 'safe'],
             [['academic_plan_id', 'studying_type_id', 'group_id', 'deleted'], 'integer'],
+            [['deleted'], 'integer', 'max' => 1, 'min' => 0],
             [['name', 'surname', 'patronymic'], 'string', 'max' => 255],
             [['academic_plan_id'], 'exist', 'skipOnError' => true, 'targetClass' => AcademicPlan::class, 'targetAttribute' => ['academic_plan_id' => 'id']],
             [['group_id'], 'exist', 'skipOnError' => true, 'targetClass' => Group::class, 'targetAttribute' => ['group_id' => 'id']],

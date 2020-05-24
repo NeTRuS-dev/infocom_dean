@@ -154,6 +154,7 @@ HAVING AVG(`mark`.`value`) > 2.75
    AND (COUNT(CASE WHEN `mark`.`absent` >= 1 THEN 1 ELSE NULL END) / COUNT(*)) > 0.3;
 
 --
+
 DELIMITER //
 
 CREATE PROCEDURE UpCourseForGroupMembers(
@@ -166,6 +167,10 @@ BEGIN
     SET @target_group_specialty_id = (SELECT `specialty_id`
                                       FROM `group`
                                       WHERE `group`.`id` = target_group_id);
+    SET @touched_students = (SELECT COUNT(`student`.`id`)
+                             FROM `group`
+                                      INNER JOIN `student` ON `group`.`id` = `student`.`group_id`
+                             WHERE `group`.`id` = target_group_id);
     SET @new_group_id = (SELECT `group`.`id`
                          FROM `group`
                          WHERE `group`.`course_number` = @target_group_course_number
@@ -192,7 +197,8 @@ BEGIN
              LEFT JOIN `history_of_academic_leaves` ON `history_of_academic_leaves`.`student_id` = `student`.`id` AND
                                                        `history_of_academic_leaves`.`date_of_beginning` <= CURDATE() AND
                                                        `history_of_academic_leaves`.`date_of_ending` >= CURDATE()
-    WHERE `history_of_academic_leaves`.`id` IS NULL
+    WHERE `group`.`id` = target_group_id
+      AND `history_of_academic_leaves`.`id` IS NULL
     GROUP BY `student`.`id`
     HAVING AVG(`mark`.`value`) <= 2.75
         OR (COUNT(CASE WHEN `mark`.`absent` >= 1 THEN 1 ELSE NULL END) / COUNT(*)) <= 0.3;
@@ -207,6 +213,7 @@ BEGIN
     UPDATE `group`
     SET `group`.`course_number` = `group`.`course_number` + 1
     WHERE `group`.`id` = target_group_id;
+    SELECT @touched_students;
 END //
 
 DELIMITER ;

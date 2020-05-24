@@ -1,12 +1,13 @@
 <?php
 /* @var $this yii\web\View */
 
+/* @var $model LosersSearchForm */
 /* @var $items array[] */
 
+use app\models\LosersSearchForm;
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
 
-/* @var $subjects \app\models\Subject[] */
 ?>
 <div class="d-flex justify-content-center align-items-center mt-3 flex-column">
     <?php $form = ActiveForm::begin() ?>

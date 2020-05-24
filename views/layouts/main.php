@@ -37,7 +37,7 @@ AppAsset::register($this);
             [
                 'label' => 'Отчёты',
                 'items' => [
-                    ['label' => 'Средний балл в группе таблица', 'url' => ['/']],
+                    ['label' => 'Средний балл в группе таблица', 'url' => ['/site/' . Inflector::camel2id('GetGradeAveragePerGroup')]],
                     ['label' => 'Средний балл в группе диаграмма', 'url' => ['/site/display-graph']],
                 ],
             ],
@@ -45,6 +45,7 @@ AppAsset::register($this);
                 'label' => 'Запросы',
                 'items' => [
                     ['label' => 'Студенты с плохой успеваемостью', 'url' => ['/site/' . Inflector::camel2id('GetLosers')]],
+                    ['label' => 'Перевод группы студентов на следующий курс', 'url' => ['/site/' . Inflector::camel2id('UpStudentsCourse')]],
                 ],
             ],
             [

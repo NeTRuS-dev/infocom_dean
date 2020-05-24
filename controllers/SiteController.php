@@ -3,14 +3,17 @@
 namespace app\controllers;
 
 use app\models\DataContainer;
+use app\models\GroupSearchForm;
 use app\models\LosersSearchForm;
 use app\models\StudentSearchForm;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use yii\db\Exception;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use yii\web\Response;
 
 class SiteController extends Controller
 {
@@ -35,6 +38,14 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        return $this->render('index');
+    }
+
+    /**
+     * @return string
+     */
+    public function actionGetGradeAveragePerGroup()
+    {
         $query = (new Query())->from('grade_point_average_in_group');
         $provider = new ActiveDataProvider([
             'db' => Yii::$app->db,
@@ -43,14 +54,13 @@ class SiteController extends Controller
                 'pageSize' => 10,
             ],
         ]);
-        return $this->render('index', [
+        return $this->render('universal-data-presenter', [
             'data_provider' => $provider,
             '_title' => 'Средняя оценка',
         ]);
     }
 
     /**
-     * Displays homepage.
      *
      * @return string
      */
@@ -78,7 +88,7 @@ class SiteController extends Controller
     public function actionGetGraph()
     {
         $this->layout = false;
-        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->format = Response::FORMAT_RAW;
         Yii::$app->response->headers->set('Content-Type', 'text/plain; charset=utf-8');
         return $this->render('graph-presenter', [
             'groups' => Yii::$app->request->queryParams['groups'],
@@ -151,7 +161,7 @@ class SiteController extends Controller
                 ],
             ]);
 
-            return $this->render('index', [
+            return $this->render('universal-data-presenter', [
                 'data_provider' => $provider,
                 '_title' => 'Студенты с плохой успеваемостью за период',
             ]);
@@ -164,17 +174,43 @@ class SiteController extends Controller
                     'pageSize' => 10,
                 ],
             ]);
-            return $this->render('index', [
+            return $this->render('universal-data-presenter', [
                 'data_provider' => $provider,
                 '_title' => 'Студенты с плохой успеваемостью за период',
             ]);
         } else {
             $query = (new Query())
-                ->select(['department.name AS department_name', 'subject.id AS subject_id', 'subject.name AS subject_name'])
+                ->select(['`department`.`name` AS `department_name`', '`subject`.`id` AS `subject_id`', '`subject`.`name` AS `subject_name`'])
                 ->from('department')
-                ->innerJoin('subject', 'subject.department_id=department.id');
+                ->innerJoin('subject', '`subject`.`department_id`=`department`.`id`');
             $items = ArrayHelper::map($query->all(), 'subject_id', 'subject_name', 'department_name');
             return $this->render('idiots-search', compact('model', 'items'));
+        }
+    }
+
+
+    public function actionUpStudentsCourse()
+    {
+        $model = new GroupSearchForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            try {
+                $touched_students_count = Yii::$app->db->createCommand('CALL UpCourseForGroupMembers(:group_id)')
+                    ->bindValue(':group_id', $model->group_id)
+                    ->queryScalar();
+            } catch (Exception $e) {
+                return $this->render('error', [
+                    'name' => $e->getName(),
+                    'message' => $e->getMessage(),
+                ]);
+            }
+            return $this->render('success', compact('touched_students_count'));
+        } else {
+            $query = (new Query())
+                ->select(['`group`.`name` AS `group_name`', '`group`.`id` AS `group_id`', '`specialty`.`name` AS `specialty_name`'])
+                ->from('specialty')
+                ->innerJoin('group', '`group`.`specialty_id`=`specialty`.`id`');
+            $items = ArrayHelper::map($query->all(), 'group_id', 'group_name', 'specialty_name');
+            return $this->render('group-select', compact('model', 'items'));
         }
     }
 
