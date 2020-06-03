@@ -5,6 +5,7 @@ use app\models\DataContainer;
 use yii\bootstrap4\LinkPager;
 use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 $this->title = 'Отчёт';
@@ -52,6 +53,7 @@ function display_data_container(DataContainer $container, int $index)
 }
 
 ?>
+<?php Pjax::begin() ?>
 <div class="d-flex justify-content-center align-items-center flex-column">
     <?php
     if (!empty($data_containers)) {
@@ -64,6 +66,7 @@ function display_data_container(DataContainer $container, int $index)
     ?>
 
 </div>
+<?php Pjax::end() ?>
 
 
 

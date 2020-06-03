@@ -4,7 +4,7 @@
 namespace app\models;
 
 
-class DataContainer extends \yii\base\Model
+class DataContainer extends \yii\base\BaseObject
 {
     public array $main_data;
     public array $subjects_data;
