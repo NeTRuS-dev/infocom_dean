@@ -47,8 +47,8 @@ class Subject extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'department_id' => 'Department ID',
+            'name' => 'Название',
+            'department_id' => 'ID кафедры',
         ];
     }
 

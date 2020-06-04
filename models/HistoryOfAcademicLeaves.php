@@ -44,9 +44,9 @@ class HistoryOfAcademicLeaves extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'date_of_beginning' => 'Date Of Beginning',
-            'date_of_ending' => 'Date Of Ending',
-            'student_id' => 'Student ID',
+            'date_of_beginning' => 'Дата начала',
+            'date_of_ending' => 'Дата окончание',
+            'student_id' => 'ID студента',
         ];
     }
 

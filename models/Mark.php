@@ -47,11 +47,11 @@ class Mark extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'value' => 'Value',
-            'subject_id' => 'Subject ID',
-            'valuation_date' => 'Valuation Date',
-            'student_id' => 'Student ID',
-            'absent' => 'Absent',
+            'value' => 'Значение',
+            'subject_id' => 'ID предмета',
+            'valuation_date' => 'Дата выставление оценки',
+            'student_id' => 'ID студента',
+            'absent' => 'Отсутствие',
         ];
     }
 

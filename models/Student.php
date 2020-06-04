@@ -60,15 +60,15 @@ class Student extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'surname' => 'Surname',
-            'patronymic' => 'Patronymic',
-            'date_of_birth' => 'Date Of Birth',
-            'year_of_receipt' => 'Year Of Receipt',
-            'academic_plan_id' => 'Academic Plan ID',
-            'studying_type_id' => 'Studying Type ID',
-            'group_id' => 'Group ID',
-            'deleted' => 'Deleted',
+            'name' => 'Имя',
+            'surname' => 'Фамилия',
+            'patronymic' => 'Отчество',
+            'date_of_birth' => 'Дата рождения',
+            'year_of_receipt' => 'Год поступления',
+            'academic_plan_id' => 'ID учебного плана',
+            'studying_type_id' => 'ID типа обучения',
+            'group_id' => 'ID группы',
+            'deleted' => 'Удалён',
         ];
     }
 

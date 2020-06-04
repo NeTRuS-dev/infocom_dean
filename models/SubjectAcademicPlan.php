@@ -45,10 +45,10 @@ class SubjectAcademicPlan extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'subject_id' => 'Subject ID',
-            'academic_plan_id' => 'Academic Plan ID',
-            'number_of_lecture_hours' => 'Number Of Lecture Hours',
-            'hours_of_practical_training' => 'Hours Of Practical Training',
+            'subject_id' => 'ID предмета',
+            'academic_plan_id' => 'ID учебного плана',
+            'number_of_lecture_hours' => 'Количество лекционных часов',
+            'hours_of_practical_training' => 'Количество часов практических занятий',
         ];
     }
 

@@ -48,10 +48,10 @@ class HistoryOfGroupChanging extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'course_number' => 'Course Number',
-            'previous_group_id' => 'Previous Group ID',
-            'new_group_id' => 'New Group ID',
-            'student_id' => 'Student ID',
+            'course_number' => 'Номер курса',
+            'previous_group_id' => 'ID старой группы',
+            'new_group_id' => 'ID новой группы',
+            'student_id' => 'ID студента',
         ];
     }
 

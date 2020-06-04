@@ -43,9 +43,9 @@ class HistoryOfCourseMoves extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'old_course_number' => 'Old Course Number',
-            'new_course_number' => 'New Course Number',
-            'student_id' => 'Student ID',
+            'old_course_number' => 'старый номер курса',
+            'new_course_number' => 'новый номер курса',
+            'student_id' => 'ID студента',
         ];
     }
 

@@ -46,9 +46,9 @@ class Group extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'course_number' => 'Course Number',
-            'specialty_id' => 'Specialty ID',
+            'name' => 'Название',
+            'course_number' => 'Номер курса',
+            'specialty_id' => 'ID специальности',
         ];
     }
 
