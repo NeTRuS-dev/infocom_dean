@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\MarkSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Marks';
+$this->title = 'Оценки';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mark-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Mark', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать оценку', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>

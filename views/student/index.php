@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\StudentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Students';
+$this->title = 'Студенты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="student-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Student', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создание профиля студента', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>

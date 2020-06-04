@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\HistoryOfCourseMovesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'History Of Course Moves';
+$this->title = 'История смены курсов студентов';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="history-of-course-moves-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create History Of Course Moves', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать запись смены курса студента', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>

@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\StudyingTypeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Studying Types';
+$this->title = 'Типы обучения';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="studying-type-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Studying Type', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать тип обучения', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>

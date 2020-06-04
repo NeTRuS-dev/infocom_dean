@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\HistoryOfAcademicLeaves */
 
-$this->title = 'Create History Of Academic Leaves';
+$this->title = 'Создание записи в истории об уходах в академический отпуск ';
 $this->params['breadcrumbs'][] = ['label' => 'History Of Academic Leaves', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

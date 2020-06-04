@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\DepartmentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Departments';
+$this->title = 'Кафедры';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="department-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Department', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать кафедру', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>

@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\SubjectSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Subjects';
+$this->title = 'Предметы';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="subject-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Subject', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать предмет', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>

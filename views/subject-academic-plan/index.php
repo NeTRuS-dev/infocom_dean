@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\SubjectAcademicPlanSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Subject Academic Plans';
+$this->title = 'Предмет - учебный план';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="subject-academic-plan-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Subject Academic Plan', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать новую связь предмет-учебный план', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>

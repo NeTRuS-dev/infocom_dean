@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\HistoryOfCourseMoves */
 
-$this->title = 'Create History Of Course Moves';
+$this->title = 'Создание записи смены курса студента';
 $this->params['breadcrumbs'][] = ['label' => 'History Of Course Moves', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

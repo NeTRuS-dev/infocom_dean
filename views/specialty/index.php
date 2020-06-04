@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\SpecialtySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Specialties';
+$this->title = 'Специальности';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="specialty-index">

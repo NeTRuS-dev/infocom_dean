@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\GroupSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Groups';
+$this->title = 'Группы';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="group-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Group', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать группу', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>

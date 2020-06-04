@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\HistoryOfCourseMoves */
 
-$this->title = 'Update History Of Course Moves: ' . $model->id;
+$this->title = 'Изменение записи истории смены курсов с id = ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'History Of Course Moves', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';

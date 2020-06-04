@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\SubjectAcademicPlan */
 
-$this->title = 'Create Subject Academic Plan';
+$this->title = 'Создание новой связи предмета и учебного плана';
 $this->params['breadcrumbs'][] = ['label' => 'Subject Academic Plans', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

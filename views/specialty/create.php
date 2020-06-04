@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Specialty */
 
-$this->title = 'Create Specialty';
+$this->title = 'Создание специальности';
 $this->params['breadcrumbs'][] = ['label' => 'Specialties', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

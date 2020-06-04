@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\StudyingType */
 
-$this->title = 'Create Studying Type';
+$this->title = 'Создание типа обучения';
 $this->params['breadcrumbs'][] = ['label' => 'Studying Types', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

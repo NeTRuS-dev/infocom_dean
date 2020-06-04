@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\HistoryOfGroupChangingSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'History Of Group Changings';
+$this->title = 'История смен групп';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="history-of-group-changing-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create History Of Group Changing', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создат новую запись смены группы', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
